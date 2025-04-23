@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 const { TabPane } = Tabs;
 
+// 从环境变量获取 API 地址
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function App() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -12,7 +15,7 @@ function App() {
   const handleRegister = async (values) => {
     setLoading(true);
     try {
-      const res = await axios.post('http://127.0.0.1:5000/api/auth/register', values);
+      const res = await axios.post(`${API_BASE_URL}/api/auth/register`, values);
       message.success(res.data.msg);
     } catch (err) {
       message.error(err.response?.data?.msg || '注册失败');
@@ -24,7 +27,7 @@ function App() {
   const handleLogin = async (values) => {
     setLoading(true);
     try {
-      const res = await axios.post('http://127.0.0.1:5000/api/auth/login', values);
+      const res = await axios.post(`${API_BASE_URL}/api/auth/login`, values);
       message.success('登录成功');
       localStorage.setItem('token', res.data.access_token);
       navigate('/profile');

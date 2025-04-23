@@ -9,11 +9,12 @@ function Profile() {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://127.0.0.1:5000/api/user/profile', {
+        const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+        
         setUser(res.data);
       } catch (err) {
         message.error('获取用户信息失败');
