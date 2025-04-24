@@ -33,10 +33,10 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-# ✅ 启动时自动创建表（无论是本地还是 Render 云端）
-@app.before_first_request
-def create_tables():
+# ✅ Render 兼容：直接在模块加载时创建数据库表（如果不存在）
+with app.app_context():
     db.create_all()
+
 
 # 注册接口
 @app.route('/api/auth/register', methods=['POST'])
